@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- struts2 配置文件 -->
+<struts>
+    <!-- 加载struts2 核心配置文件 -->
+    <include file="struts-default.xml"/>
+    <!-- 请求参数的编码方式-->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!--该属性设置是否每次HTTP请求到达时，系统都重新加载资源文件。
+        该属性默认值是false。
+        在开发阶段将该属性设置为true会更有利于开发，但在产品发布阶段应将该属性设置为false。-->
+    <constant name="struts.i18n.reload" value="false"/>
+    <!--该属性指定Struts 2应用所需要的国际化资源文件，
+        如果有多份国际化资源文件，则多个资源文件的文件名以英文逗号（,）隔开-->
+    <constant name="struts.custom.i18n.resources" value="message"/>
+    <!-- 指定被struts2处理的请求后缀类型。多个用逗号隔开-->
+    <constant name="struts.action.extension" value="action"/>
+    <!-- 当struts.xml改动后，是否重新加载。默认值为false(生产环境下使用),开发阶段最好打开  -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- 是否使用struts的开发模式。开发模式会有更多的调试信息。默认值为false(生产环境下使用),开发阶段最好打开  -->
+    <constant name="struts.devMode" value="true"/>
+    <!-- 设置浏览器是否缓存静态内容。默认值为true(生产环境下使用),开发阶段最好关闭  -->
+    <constant name="struts.serve.static.browserCache" value="false"/>
+    <!-- 指定由spring负责action对象的创建      -->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!-- 是否开启动态方法调用-->
+    <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
+    <!-- 上传文件大小限制为10M -->
+    <constant name="struts.multipart.maxSize" value="10485760"/>
+    <!-- 指定Web应用的默认Locale-->
+    <constant name="struts.locale" value="zh_CN"/>
+
+    <constant name="struts.convention.result.path" value="/"/>
+
+
+    <!-- 配置Struts拦截器-->
+    <package name="mc_interceptor_action" extends="json-default">
+        <interceptors>
+            <interceptor name="sessioninterceptoraction" class="sessioninterceptoraction" />
+            <!-- 拦截器栈 -->
+            <interceptor-stack name="sessintaction">
+                <interceptor-ref name="sessioninterceptoraction" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="sessintaction">
+        </default-interceptor-ref>
+        <global-results>
+            <result name="sesserr">./jsp/error/session_error.html</result>
+        </global-results>
+    </package>
+
+</struts>
